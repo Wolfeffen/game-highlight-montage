@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Node / Remotion
+node_modules/
+out/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Analysis artifacts (local working files, not part of the skill)
+*.mp4
+*.mp3
+*.wav
+timeline.json
+motion_energy.json
+sharpness_report.json
