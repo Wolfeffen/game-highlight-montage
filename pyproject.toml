@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "game-highlight-montage"
+version = "0.1.0"
+description = "游戏高光混剪 Skill —— 通过数据驱动分析与编辑方法论生成节奏型高光混剪。"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Wolfeffen" }
+]
+keywords = ["video", "highlight", "montage", "ffmpeg", "editing"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "numpy>=1.24.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Wolfeffen/game-highlight-montage"
+Repository = "https://github.com/Wolfeffen/game-highlight-montage"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

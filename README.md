@@ -12,46 +12,71 @@ game-highlight-montage/
 ├── SKILL.md                       # 技能定义与工作流说明
 ├── LICENSE                        # MIT 开源协议
 ├── .gitignore                     # Git 忽略规则
-├── scripts/                      # 分析脚本与处理脚本
-│   ├── motion_energy.py          # 帧差能量分析（YDIF）
-│   ├── sharpness_check.py        # 锐度检测脚本
-│   └── bgm_energy.py             # BGM 能量分析脚本
-├── references/                   # 剪辑方法论与平台参数
-│   ├── methodology.md            # 剪辑方法论
-│   ├── game-profiles.md          # 游戏类型档案
-│   └── platform-presets.md       # 平台时长预设
-├── docs/                         # 项目文档与说明
-│   └── project-structure.md       # 项目结构说明
-├── examples/                     # 参考示例与使用范例
-│   └── workflow-example.md       # 工作流示例
-├── tests/                        # 测试与验证说明
-│   └── README.md                 # 测试说明
-├── data/                         # 未来可放素材、输出、缓存等数据
-│   └── .gitkeep                  # 占位文件
-└── outputs/                      # 产出目录（如预切片、JSON、视频输出）
-    └── .gitkeep                  # 占位文件
+├── pyproject.toml                 # Python 项目配置，支持标准安装
+├── requirements.txt               # Python 依赖
+├── scripts/                       # 分析脚本与处理脚本
+│   ├── motion_energy.py
+│   ├── sharpness_check.py
+│   └── bgm_energy.py
+├── src/                           # 标准 Python 包目录
+│   └── game_highlight_montage/
+│       ├── __init__.py
+│       └── __main__.py
+├── references/                    # 剪辑方法论与平台参数
+│   ├── methodology.md
+│   ├── game-profiles.md
+│   └── platform-presets.md
+├── docs/                          # 项目文档与说明
+│   └── project-structure.md
+├── examples/                      # 参考示例与使用范例
+│   └── workflow-example.md
+├── tests/                         # 测试与验证说明
+│   └── README.md
+├── data/                          # 可放素材/缓存/分析数据
+│   └── .gitkeep
+├── outputs/                       # 产出目录
+│   └── .gitkeep
+└── .github/                       # GitHub 配置（可选）
 ```
 
-## 设计目标
+## Python 项目结构说明
 
-- 统一脚本、参考文档、示例和测试入口
-- 让仓库更适合长期迭代和协作维护
-- 保持 Skill 形式不变，同时增加标准工程化结构
-- 让新接手的人可以快速理解“什么文件放什么地方”
+本仓库已升级成更标准的 Python 工程结构：
+
+- `src/game_highlight_montage/`：Python 包目录，适合后续扩展
+- `pyproject.toml`：标准项目配置，支持 `pip install -e .`
+- `requirements.txt`：基础依赖清单
+- `scripts/`：仍保留技能脚本执行入口，兼容现有工作流
+
+## 安装方式
+
+```bash
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+pip install -e .
+```
 
 ## 使用方式
 
-1. 先阅读 `SKILL.md` 了解整个剪辑流程。
-2. 结合 `references/` 中的剪辑理论和平台参数进行选段与节奏设计。
-3. 运行 `scripts/` 下的脚本进行素材分析与 BGM 对齐。
-4. 按需输出到 `outputs/` 或 `data/` 中保存结果。
+1. 阅读 `SKILL.md` 理解整体剪辑流程。
+2. 使用 `references/` 中的方法论和参数。
+3. 运行 `scripts/` 下的脚本进行分析：
+
+```bash
+python scripts/motion_energy.py ./input_clips
+python scripts/sharpness_check.py ./input_clips
+python scripts/bgm_energy.py ./audio/test.mp3 45
+```
+
+4. 如需扩展功能，可在 `src/game_highlight_montage/` 中添加模块。
 
 ## 维护建议
 
-- 脚本类文件保持在 `scripts/` 中，不要散落在仓库根目录。
-- 参考资料统一归档到 `references/`。
-- 新增说明文档建议放到 `docs/`，示例放到 `examples/`。
-- 可输出结果放到 `outputs/`，原始素材数据放到 `data/`。
+- 代码逻辑尽量放入 `src/` 中，避免根目录散落脚本。
+- 脚本型处理工具保留在 `scripts/`，便于直接调试和执行。
+- 参考资料统一放入 `references/`。
+- 中间产物放到 `outputs/`，原始数据放到 `data/`。
 
 ## License
 
