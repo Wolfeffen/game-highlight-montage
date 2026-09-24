@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>game-highlight-montage · 游戏高光混剪 Skill</title>
+<meta name="description" content="把多段游戏精彩素材，按专业剪辑方法论做成节奏型混剪视频。数据驱动选段 + 黄金分割结构 + Remotion 代码渲染。" />
+<style>
+  :root{
+    --bg:#0b0b12;
+    --panel:#14141f;
+    --panel-2:#1b1b2a;
+    --line:#2a2a3d;
+    --purple:#a26bff;
+    --purple-2:#7b2fd4;
+    --text:#ececf5;
+    --muted:#9a9ab5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .glow{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(600px 300px at 15% -5%, rgba(162,107,255,.20), transparent 70%),
+      radial-gradient(700px 350px at 90% 0%, rgba(123,47,212,.16), transparent 70%);
+  }
+  .wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:56px 22px 72px}
+  .badge{
+    display:inline-block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--purple);border:1px solid rgba(162,107,255,.35);
+    background:rgba(162,107,255,.08);padding:5px 12px;border-radius:999px;margin-bottom:20px;
+  }
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.2;letter-spacing:-.01em;font-weight:800}
+  h1 .zip{color:var(--purple)}
+  .sub{color:var(--muted);font-size:17px;margin-top:16px;max-width:660px}
+  .cta{display:flex;flex-wrap:wrap;gap:14px;margin:34px 0 12px}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:14px 26px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--purple),var(--purple-2));color:#fff;
+    box-shadow:0 10px 30px rgba(123,47,212,.45);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(123,47,212,.6)}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);background:var(--panel)}
+  .btn-ghost:hover{border-color:rgba(162,107,255,.5);transform:translateY(-2px)}
+  .hint{color:var(--muted);font-size:13.5px}
+  section{margin-top:52px}
+  h2{font-size:21px;font-weight:750;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  h2::before{content:"";width:4px;height:18px;border-radius:2px;background:var(--purple)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px}
+  ul.clean{list-style:none;display:grid;gap:11px}
+  ul.clean li{padding-left:24px;position:relative;color:#cfcfe4}
+  ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--purple)}
+  ul.clean li b{color:#fff}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .step{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .step .n{
+    display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;
+    background:rgba(162,107,255,.16);color:var(--purple);font-weight:800;font-size:14px;margin-bottom:9px;
+  }
+  .step p{font-size:14.5px;color:#c9c9de}
+  pre{
+    background:#0e0e18;border:1px solid var(--line);border-radius:11px;
+    padding:15px 17px;overflow-x:auto;font-size:13.5px;color:#d5d5ea;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin-top:12px;
+  }
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:13px;letter-spacing:.04em}
+  tr:last-child td{border-bottom:none}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .tag{font-size:13px;color:#c9b6ff;background:rgba(162,107,255,.10);border:1px solid rgba(162,107,255,.25);padding:4px 11px;border-radius:999px}
+  footer{margin-top:60px;padding-top:26px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+  a.plain{color:var(--purple);text-decoration:none;border-bottom:1px dashed rgba(162,107,255,.5)}
+  @media (max-width:560px){
+    .wrap{padding:38px 18px 56px}
+    pre{font-size:12.5px}
+  }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+
+  <span class="badge">AI Agent Skill · 免费开源</span>
+  <h1>游戏高光混剪<br><span class="zip">game-highlight-montage</span></h1>
+  <p class="sub">
+    把 N 段游戏精彩素材，做成一支节奏型混剪视频。核心不是"拼起来"，而是
+    <b>镜头语言方法论 + 数据驱动选段 + 可复用的代码管线</b> —— 成品强于模板剪辑软件。
+  </p>
+
+  <div class="cta">
+    <a class="btn btn-primary" href="game-highlight-montage.zip" download>
+      ⬇ 下载 Skill 压缩包
+    </a>
+    <a class="btn btn-ghost" href="#install">查看安装方法</a>
+    <a class="btn btn-ghost" href="https://github.com/Wolfeffen/game-highlight-montage">GitHub 仓库</a>
+  </div>
+  <p class="hint">v1.2 · 压缩包 155.4 KB，含 SKILL.md、8 个脚本、5 份参考文档与 1 张参考图；MIT 协议，可自由使用与二次分发。</p>
+
+  <section>
+    <h2>它能做什么</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><b>数据驱动选段</b>：帧差能量（YDIF）定位激战窗口 + 拉普拉斯方差锐度检测，自动剔除低清素材</li>
+        <li><b>剪辑方法论内置</b>：亮相拼贴 → 能量递增快剪 → 黄金分割点极限快切 → 完整表现前后呼应 → 官方收尾</li>
+        <li><b>游戏类型适配</b>：FPS（守望先锋 / 无畏契约 / CS:GO / 三角洲）与 MOBA（王者荣耀 / 英雄联盟）两套节奏档案</li>
+        <li><b>平台时长参数化</b>：微博 35s / 抖音 45s / B站 90s 预设配方，黄金分割硬约束公式</li>
+        <li><b>BGM 能量对齐</b>：自动选窗，让视频黄金分割点落在 BGM 高能平台起点</li>
+        <li><b>BGM 一键生成</b>：接云端 ACE-Step，批量出候选 → 滑动窗口自动评分选优 → 直接裁出可用配乐</li>
+        <li><b>BGM 风格手册</b>：实测得出 FPS 首选「强鼓点 + 失真吉他 solo」，附数据与验收清单</li>
+        <li><b>全代码化特效</b>：zoom punch、紫色切帧闪光、倾斜切块拼版、电影黑边缓推…… 可迭代可复现</li>
+      </ul>
+      <div class="tags">
+        <span class="tag">守望先锋</span>
+        <span class="tag">无畏契约</span>
+        <span class="tag">CS:GO</span>
+        <span class="tag">三角洲行动</span>
+        <span class="tag">王者荣耀</span>
+        <span class="tag">英雄联盟</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <h2>安装与使用</h2>
+    <div class="grid2">
+      <div class="step">
+        <span class="n">1</span>
+        <p>下载上面的 zip，解压得到 <code>game-highlight-montage/</code> 文件夹。</p>
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        <p>把整个文件夹放进 Agent 的 skills 目录，例如 WorkBuddy 的 <code>~/.workbuddy/skills/</code>。</p>
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        <p>对 Agent 说：「帮我做一个游戏混剪，素材在 X 目录，目标平台抖音」。</p>
+      </div>
+      <div class="step">
+        <span class="n">4</span>
+        <p>Agent 自动跑完：素材体检 → 选段 → BGM 对齐 → 预切 → 渲染 → 抽帧自检 → 交付成片。</p>
+      </div>
+    </div>
+    <pre><code># 依赖环境（脚本与渲染需要）
+ffmpeg / ffprobe   # 素材体检、预切、抽帧
+python3 + numpy    # 运行分析脚本
+node 18+           # Remotion 渲染
+npm install remotion@4.0.526 @remotion/cli@4.0.526 react@19 react-dom@19</code></pre>
+  </section>
+
+  <section>
+    <h2>三条铁律</h2>
+    <table>
+      <thead><tr><th>准则</th><th>为什么</th></tr></thead>
+      <tbody>
+        <tr><td><b>先看画面再定段</b></td><td>数据只是初筛，每个候选段必须抽帧目检，避免混入亮相动画 / 黑场 / 低清画面</td></tr>
+        <tr><td><b>出招帧数 &gt; 击杀后帧数</b></td><td>出招明确、击杀果断，约六四开；50/50 会让观众觉得"乱"</td></tr>
+        <tr><td><b>改时间线先算总长</b></td><td>任何增删必须重新配平总时长，并复核 BGM 对齐是否仍成立</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>文件结构</h2>
+    <pre><code>game-highlight-montage/
+├── SKILL.md                  技能主文件（触发条件 / 铁律 / 七步工作流）
+├── scripts/
+│   ├── motion_energy.py      帧差能量分析，输出高能窗口排名
+│   ├── sharpness_check.py    锐度检测，标记低清素材
+│   ├── bgm_energy.py         BGM 逐秒能量曲线，辅助选窗
+│   ├── bgm_brief.py          BGM 施工单：把视频结构转成给作曲家的精确单子
+│   ├── bgm_onset.py          鼓点检测 + 与视频切点的对齐校验
+│   ├── bgm_generate.py       云端 ACE-Step 一键生成：候选 + 滑动窗口自动选优
+│   └── bgm_section_check.py  段落级音画结构复核（能量 / 鼓点密度 / 切鼓比）
+└── references/
+    ├── methodology.md        完整剪辑方法论（实战迭代沉淀）
+    ├── game-profiles.md      各游戏集锦特点与结构调整
+    ├── platform-presets.md   平台时长预设与参数化公式
+    ├── bgm-style.md          BGM 风格手册：实测数据与验收标准
+    └── ace-step.md           ACE 接入参考：四条路线与成本对比</code></pre>
+  </section>
+
+  <section>
+    <h2>配乐怎么来的</h2>
+    <div class="card">
+      <p style="color:#cfcfe4">
+        AI 生成的配乐保证不了精确落点——这是模型特性，不是提示词写得不够好。
+        所以本 Skill 不指望「一次生成就完美」，而是把它变成一次搜索：
+      </p>
+      <ul class="clean" style="margin-top:14px">
+        <li><b>批量采样</b>：一次生成 N 个候选（不同 seed），生成时长取成片的 2 倍</li>
+        <li><b>滑动窗口</b>：在长曲上以 0.25s 为步长滑动，逐窗评估</li>
+        <li><b>自动评分</b>：切点对齐率 40 + 中位偏差 20 + 黄金分割点能量比 25 + 结构匹配 15</li>
+        <li><b>直接落盘</b>：得分最高的窗口裁出来，带上淡入淡出即可装配</li>
+      </ul>
+      <pre><code># 先看施工单，不花钱
+python scripts/bgm_generate.py timeline.json --dry-run
+
+# 真跑：5 个候选自动选优
+python scripts/bgm_generate.py timeline.json --provider acestep --n 5 --out bgm/
+
+# 生成后复核
+python scripts/bgm_onset.py 成片.mp4 timeline.json</code></pre>
+      <p style="color:var(--muted);font-size:14.5px;margin-top:12px">
+        一支 45 秒成片跑 5 个候选，按量付费约合 1 元。也可以不接 API——
+        <code>--score-only</code> 能直接给现成配乐打分，找出「收拳点软不软」这类问题。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>来源与状态</h2>
+    <div class="card">
+      <p style="color:#cfcfe4">
+        提炼自一个完整实战项目：27 段《守望先锋》莫伊拉全场最佳素材 → 46.7 秒混剪成片，
+        经 4 轮专业反馈迭代验收通过。
+      </p>
+      <p style="color:var(--muted);font-size:14.5px;margin-top:10px">
+        · 守望先锋档案：<b style="color:#8be08b">实战验证</b> &nbsp;·&nbsp;
+        无畏契约 / CS:GO：<b style="color:#ffd479">同族推演</b> &nbsp;·&nbsp;
+        MOBA 档案：<b style="color:#9a9ab5">待实战回写</b>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    MIT License · 可自由使用、修改与分发。示例 BGM 检索自 ccMixter，使用时请遵守各曲目的 CC 授权条款。
+  </footer>
+
+</div>
+</body>
+</html>
