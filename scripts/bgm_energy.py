@@ -45,14 +45,15 @@ for i, v in enumerate(norm):
 if line:
     print(f'{(len(rms) - len(line)) * 0.5:6.1f}s |{line.ljust(30)}|')
 
+# 推荐截取窗口：使 视频T*0.618 落在 BGM 高能(>80%)平台起点
 golden = TARGET * 0.618
 best = None
 for start_x2 in range(0, len(norm) - int(TARGET * 2)):
     seg = norm[start_x2:start_x2 + int(TARGET * 2)]
     gp = int(golden * 2)
-    score = (sum(1 for v in seg[gp:gp + 8] if v > 0.8) * 2
-             + sum(1 for v in seg[gp:] if v > 0.6) / max(len(seg) - gp, 1)
-             - sum(1 for v in seg[:16] if v > 0.8))
+    score = (sum(1 for v in seg[gp:gp + 8] if v > 0.8) * 2        # 黄金点+后4s高能
+             + sum(1 for v in seg[gp:] if v > 0.6) / max(len(seg) - gp, 1)  # 后半整体能量
+             - sum(1 for v in seg[:16] if v > 0.8))                # 开头不要太炸
     if best is None or score > best[0]:
         best = (score, start_x2 / 2)
 if best:

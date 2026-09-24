@@ -34,8 +34,12 @@ agent_created: true
 
 ### 4. BGM 选型与对齐
 - 曲库：ccMixter（CC BY 可商用），API：`https://ccmixter.org/api/query?f=json&tags=<风格>&lic=open&sort=score`（用 curl -k 直连；node 脚本在某些代理环境会报 Parse Error）。
-- 风格：FPS 混剪配强鼓点摇滚电音（BPM 140-160 效果验证过）。
+- **风格铁律**：FPS 混剪首选**强鼓点 + 失真电吉他 solo**，BPM 150-200。纯合成器电子在密集切点处容易"糊"（短板音色缺音头，切点咬不住）。详见 `references/bgm-style.md`（含实测对比与三条硬规则）。
 - 跑 `scripts/bgm_energy.py <音频文件>` 得能量曲线，**选截取窗口使视频黄金分割点（总时长×0.618）落在 BGM 高能平台起点附近**，开头亮相段落在 BGM 中低能量区。
+- **AI 生成 BGM 链路**：先跑 `scripts/bgm_brief.py <timeline.json> [风格备注]` 输出精确施工单 → 用 ACE/Suno/作曲家按单生成 → 拿到成品后跑 `scripts/bgm_onset.py <成片.mp4> <timeline.json>` 校验鼓点与切点对齐（目标 ≥80% 切点落在最近鼓点 ±0.15s 内）。详见 `references/ace-step.md`（ACE-Step 开源模型接入说明）。
+- **段落级复核**：再跑 `scripts/bgm_section_check.py <成片.mp4> <timeline.json>`，看各画面段落的音乐能量/鼓点密度/切鼓比。重点查两件事：① 黄金分割点 ±1.5s 能量是否 ≥ 全片平均（否则"收拳软"）；② P3 极限快切段若碎片递减（0.45→0.2s），音乐必须滚奏/accelerando，否则只有首切点能对齐，后续逐格漂移。
+- **一键生成（云端 ACE-Step）**：`scripts/bgm_generate.py <timeline.json> --provider acestep --n 5 --out bgm/`。原理是**批量生成 + 滑动窗口 + 自动评分选优**——AI 无法保证精确落点，所以靠采样+搜索解决，而不是靠写更好的提示词。先用 `--dry-run` 看施工单。接入路线对比与成本见 `references/ace-step.md`。
+- **不换音乐的补救**：若只是收拳点软或个别切点落在空档，不必重生成。用 `scripts/make_impacts.py` 合成打击音，在偏差大的切点补 tick、在黄金分割点补一记大重击，再 `-c:v copy` 混回画面即可。实测 74.7 → 82.3 分。配方见 `references/bgm-style.md` 第四节。
 
 ### 5. 生成时间线 + 预切
 写 gen_timeline.py 风格的脚本：段表（素材/起点/时长/相位）→ 总长 assert → ffmpeg 预切（`-ss/-to` 精确裁剪 + scale 统一 + CRF18 + 去音轨）→ 输出 timeline.json。
