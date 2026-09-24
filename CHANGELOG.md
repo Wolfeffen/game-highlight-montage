@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.2.1 — README 英文优先 + 首屏效果展示
+
+- **README 重组**：英文版升为主 `README.md`（国际流量为主），中文版迁移至 `README.zh-CN.md`，两版顶部互链。
+- **首屏效果展示**：新增 `assets/structure.svg`（真实时间线五段结构图：切点刻度 + 黄金分割点标记）与 `assets/demo.gif`（亮相拼贴 → 极限快切 → 收拳点实拍预览，380px/8fps/1.4MB）。assets 不打进发布 zip，仅存在于仓库。
+- 两版 README 增加「为什么不是把片段拼起来」差异化卖点段落、shields.io 徽章、项目主页下载链接。
+- 发布包文件清单变化：`README.en.md` 移除，新增 `README.zh-CN.md`。
+
 ## v1.2.0 — BGM 一键生成 + 风格手册
 
 - 新增 `scripts/bgm_generate.py`：云端 ACE-Step 一键生成。批量出候选 → 在长曲上滑动窗口 → 按「切点对齐率 / 中位偏差 / 黄金点能量比 / 结构匹配」自动评分选优 → 直接裁出 `bgm_best.mp3`。支持 `--dry-run` 先看施工单。
