@@ -56,6 +56,12 @@ game-highlight-montage/
 3. Ask the agent: *"Make a gameplay montage — clips are in directory X, target platform is Douyin"*
 4. The agent runs the workflow: media inspection → methodology & game profile → BGM selection and alignment → timeline generation and pre-cut → Remotion render → frame-by-frame self-check → delivers master + share versions
 
+> **Note**: GitHub's *Download ZIP* extracts to a folder named
+> `game-highlight-montage-main` (with the branch suffix). Remove the `-main`
+> suffix before placing it in your skills directory. The
+> `game-highlight-montage.zip` from the project site already extracts to the
+> correct folder name.
+
 ## The Three Rules
 
 | Rule | Why |

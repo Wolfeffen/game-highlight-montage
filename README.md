@@ -53,9 +53,15 @@ game-highlight-montage/
 
 ## 快速上手（给 Agent 的用法）
 
-1. 将本目录放入 Agent 的 skills 目录（如 `~/.workbuddy/skills/` 或项目 `.workbuddy/skills/`）
-2. 对 Agent 说："帮我做一个游戏混剪，素材在 X 目录，目标平台抖音"
-3. Agent 将按 SKILL.md 工作流执行：素材体检 → 读方法论与游戏档案 → BGM 选型对齐 → 生成时间线预切 → Remotion 渲染 → 抽帧自检 → 交付母版+分享版
+1. 下载本仓库（GitHub 的 `Code → Download ZIP`，或直接 clone）
+2. 将本目录放入 Agent 的 skills 目录（如 `~/.workbuddy/skills/` 或项目 `.workbuddy/skills/`）
+3. 对 Agent 说："帮我做一个游戏混剪，素材在 X 目录，目标平台抖音"
+4. Agent 将按 SKILL.md 工作流执行：素材体检 → 读方法论与游戏档案 → BGM 选型对齐 → 生成时间线预切 → Remotion 渲染 → 抽帧自检 → 交付母版+分享版
+
+> **注意**：用 GitHub 的 Download ZIP 下载时，解压出来的目录名会是
+> `game-highlight-montage-main`（带分支后缀），放进 skills 目录前请去掉 `-main`，
+> 改回 `game-highlight-montage`。从项目主页下载的 `game-highlight-montage.zip`
+> 解压后已是正确目录名，无需改动。
 
 ## 设计原则（三条铁律）
 
