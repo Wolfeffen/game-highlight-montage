@@ -105,6 +105,7 @@
     </a>
     <a class="btn btn-ghost" href="#install">查看安装方法</a>
     <a class="btn btn-ghost" href="https://github.com/Wolfeffen/game-highlight-montage">GitHub 仓库</a>
+    <a class="btn btn-ghost" href="https://github.com/Wolfeffen/game-highlight-montage">GitHub 仓库</a>
   </div>
   <p class="hint">v1.2 · 压缩包 155.4 KB，含 SKILL.md、8 个脚本、5 份参考文档与 1 张参考图；MIT 协议，可自由使用与二次分发。</p>
 
@@ -182,13 +183,15 @@ npm install remotion@4.0.526 @remotion/cli@4.0.526 react@19 react-dom@19</code><
 │   ├── bgm_brief.py          BGM 施工单：把视频结构转成给作曲家的精确单子
 │   ├── bgm_onset.py          鼓点检测 + 与视频切点的对齐校验
 │   ├── bgm_generate.py       云端 ACE-Step 一键生成：候选 + 滑动窗口自动选优
-│   └── bgm_section_check.py  段落级音画结构复核（能量 / 鼓点密度 / 切鼓比）
+│   ├── bgm_section_check.py  段落级音画结构复核（能量 / 鼓点密度 / 切鼓比）
+│   └── make_impacts.py       合成打击音/重击音效，给软掉的切点补强（不动画面）
 └── references/
     ├── methodology.md        完整剪辑方法论（实战迭代沉淀）
     ├── game-profiles.md      各游戏集锦特点与结构调整
-    ├── platform-presets.md   平台时长预设与参数化公式
+    ├── platform-presets.md   平台时长预设与参数化公式（含 60s 竖屏）
     ├── bgm-style.md          BGM 风格手册：实测数据与验收标准
-    └── ace-step.md           ACE 接入参考：四条路线与成本对比</code></pre>
+    ├── ace-step.md           ACE 接入参考：四条路线与成本对比
+    └── p1-vertical-collage-example.jpg  竖屏 P1 亮相拼版参考图</code></pre>
   </section>
 
   <section>
